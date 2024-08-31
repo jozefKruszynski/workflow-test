@@ -10,8 +10,6 @@ on:
         description: 'Run Dev Build'
         required: true
         type: boolean
-        default: false
-
 
 jobs:
   run_if_push:
@@ -44,6 +42,4 @@ jobs:
             echo "tag=$(git rev-parse --short "$GITHUB_SHA")" >> $GITHUB_OUTPUT
           else
             echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
-          fi
-          echo $GITHUB_OUTPUT
-    
+          fi    
