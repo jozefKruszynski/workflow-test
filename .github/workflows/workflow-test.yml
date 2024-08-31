@@ -10,6 +10,7 @@ on:
         description: 'Run Dev Build'
         required: true
         type: boolean
+        default: false
 
 
 jobs:
