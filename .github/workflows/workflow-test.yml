@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
     inputs:
       tags:
-        description: 'Tags to deploy'
+        description: 'Run Dev Build'
         required: true
         type: boolean
 
