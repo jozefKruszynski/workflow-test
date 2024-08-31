@@ -28,5 +28,21 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ inputs.tags }}
     steps:
-      - run: echo "Hello, Dispatch!"    
-      
+      - run: echo "Hello, Dispatch!"
+  
+  run_if_dispatch_in_bash:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.vars.outputs.tag }}
+    steps:
+      - uses: actions/checkout@v4.1.4
+      - name: Get tag
+        id: vars
+        run:
+          if [[ "${{ inputs.tags }}" ]]; then
+            echo "tag=$(git rev-parse --short "$GITHUB_SHA")" >> $GITHUB_OUTPUT
+          else
+            echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
+          fi
+          echo $GITHUB_OUTPUT
+    
