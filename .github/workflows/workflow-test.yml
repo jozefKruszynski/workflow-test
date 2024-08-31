@@ -4,18 +4,24 @@ on:
   push:
     branches:
       - main
-  workflow_dispatch: 
+  workflow_dispatch:
+    inputs:
+      tags:
+        description: 'Tags to deploy'
+        required: true
+        type: boolean
+
 
 jobs:
-  run_if_not_dispatch:
+  run_if_push:
     runs-on: ubuntu-latest
-    if: ${{ ! github.event.workflow_dispatch }}
+    if: ${{ ! inputs.tags }}
     steps:
       - run: echo "Hello, Push!"
 
   run_if_dispatch:
     runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_dispatch }}
+    if: ${{ inputs.tags }}
     steps:
       - run: echo "Hello, Dispatch!"    
       
