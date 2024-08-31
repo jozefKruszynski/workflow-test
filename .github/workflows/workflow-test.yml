@@ -19,6 +19,11 @@ jobs:
     steps:
       - run: echo "Hello, Push!"
 
+  run_always:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Hello, Always!"    
+
   run_if_dispatch:
     runs-on: ubuntu-latest
     if: ${{ inputs.tags }}
