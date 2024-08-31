@@ -40,8 +40,8 @@ jobs:
         run: >-
           if [[ "${{ inputs.tags }}" == "true" ]]; then
             echo "tag=$(git rev-parse --short "$GITHUB_SHA")" >> $GITHUB_OUTPUT
-            echo $GITHUB_OUTPUT 
+            echo "${{ steps.vars.outputs.tag }}"
           else
             echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
-            echo $GITHUB_OUTPUT 
+            echo "${{ steps.vars.outputs.tag }}""
           fi
