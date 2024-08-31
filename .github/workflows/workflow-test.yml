@@ -31,17 +31,13 @@ jobs:
   
   run_if_dispatch_in_bash:
     runs-on: ubuntu-latest
-    outputs:
-      version: ${{ steps.vars.outputs.tag }}
     steps:
       - uses: actions/checkout@v4.1.4
       - name: Get tag
         id: vars
         run: >-
           if [[ "${{ inputs.tags }}" == "true" ]]; then
-            echo "tag=$(git rev-parse --short "$GITHUB_SHA")" >> $GITHUB_OUTPUT
-            echo "${{ steps.vars.outputs.tag }}"
+            echo "input is true"
           else
-            echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
-            echo "${{ steps.vars.outputs.tag }}"
+            echo "input is false"
           fi
