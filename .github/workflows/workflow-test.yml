@@ -56,7 +56,7 @@ jobs:
       - name: Get tag
         id: vars
         run: >-
-          if [[ "${{ needs.build_bool_output.outputs.dev_version }}" == "true" ]]; then
+          if [[ "${{ needs.build_bool_output.outputs.dev_version }}" = "true" ]]; then
             echo "input is true"
           else
             echo "input is false"
