@@ -22,15 +22,17 @@ jobs:
         id: dev-bool
         run: >-
           if [[ -z "${{ inputs.dev_version }}" ]]; then
+            echo "unset or empty"
             echo "dev_version=false" >> $GITHUB_OUTPUT
           else
+            echo "set"
             echo "dev_version=true" >> $GITHUB_OUTPUT
           fi  
 
   run_if_push:
     needs: build_bool_output
     runs-on: ubuntu-latest
-    if: ${{ ! needs.build_bool_output.outputs.dev_version }}
+    if: ! needs.build_bool_output.outputs.dev_version
     steps:
       - run: echo "Hello, Push!"
 
@@ -42,7 +44,7 @@ jobs:
   run_if_dispatch:
     needs: build_bool_output
     runs-on: ubuntu-latest
-    if: ${{ needs.build_bool_output.outputs.dev_version }}
+    if: needs.build_bool_output.outputs.dev_version
     steps:
       - run: echo "Hello, Dispatch!"
   
