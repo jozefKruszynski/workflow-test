@@ -21,10 +21,10 @@ jobs:
       - name: Set output
         id: dev-bool
         run: >-
-          if [[ -n "${{ inputs.dev_version }}" ]]; then
-            echo "dev_version=true" >> $GITHUB_OUTPUT
-          else
+          if [[ -z "${{ inputs.dev_version }}" ]]; then
             echo "dev_version=false" >> $GITHUB_OUTPUT
+          else
+            echo "dev_version=true" >> $GITHUB_OUTPUT
           fi  
 
   run_if_push:
