@@ -6,15 +6,31 @@ on:
       - main
   workflow_dispatch:
     inputs:
-      tags:
-        description: 'Run Dev Build'
+      dev_version:
+        description: 'DEV Build version (postfix)'
         required: true
-        type: boolean
+        type: string
 
 jobs:
-  run_if_push:
+  build_bool_output:
     runs-on: ubuntu-latest
-    if: ${{ ! inputs.tags }}
+    if: always()
+    outputs:
+      dev_version: ${{ steps.dev-bool.outputs.dev_version }}
+    steps:
+      - name: Set output
+        id: dev-bool
+        run: >-
+          if [[ -n "${{ inputs.dev_version }}" ]]; then
+            echo "dev_version=true" >> $GITHUB_OUTPUT
+          else
+            echo "dev_version=false" >> $GITHUB_OUTPUT
+          fi  
+
+  run_if_push:
+    needs: build_bool_output
+    runs-on: ubuntu-latest
+    if: ${{ ! needs.build_bool_output.outputs.dev_version }}
     steps:
       - run: echo "Hello, Push!"
 
@@ -24,19 +40,21 @@ jobs:
       - run: echo "Hello, Always!"    
 
   run_if_dispatch:
+    needs: build_bool_output
     runs-on: ubuntu-latest
-    if: ${{ inputs.tags }}
+    if: ${{ needs.build_bool_output.outputs.dev_version }}
     steps:
       - run: echo "Hello, Dispatch!"
   
   run_if_dispatch_in_bash:
+    needs: build_bool_output
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4.1.4
       - name: Get tag
         id: vars
         run: >-
-          if [[ "${{ inputs.tags }}" == "true" ]]; then
+          if [[ "${{ needs.build_bool_output.outputs.dev_version }}" == "true" ]]; then
             echo "input is true"
           else
             echo "input is false"
