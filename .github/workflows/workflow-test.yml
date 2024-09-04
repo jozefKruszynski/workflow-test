@@ -32,7 +32,7 @@ jobs:
   run_if_push:
     needs: build_bool_output
     runs-on: ubuntu-latest
-    if: ! needs.build_bool_output.outputs.dev_version
+    if: ${{ ! needs.build_bool_output.outputs.dev_version }}
     steps:
       - run: echo "Hello, Push!"
 
@@ -44,7 +44,7 @@ jobs:
   run_if_dispatch:
     needs: build_bool_output
     runs-on: ubuntu-latest
-    if: needs.build_bool_output.outputs.dev_version
+    if: ${{ needs.build_bool_output.outputs.dev_version }}
     steps:
       - run: echo "Hello, Dispatch!"
   
