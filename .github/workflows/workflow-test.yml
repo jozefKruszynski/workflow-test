@@ -22,10 +22,10 @@ jobs:
         id: dev-bool
         run: >-
           if [[ -z "${{ inputs.dev_version }}" ]]; then
-            echo "unset or empty"
+            echo "unset or empty ${{ inputs.dev_version }}"
             echo "dev_version=false" >> $GITHUB_OUTPUT
           else
-            echo "set"
+            echo "set as: ${{ inputs.dev_version }}"
             echo "dev_version=true" >> $GITHUB_OUTPUT
           fi  
 
